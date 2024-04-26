@@ -1,0 +1,32 @@
+---
+- name: Create {{ root }} directory
+  ansible.builtin.file:
+    path: '{{ root }}'
+    state: directory
+    #   chdir: /home/gg/git clone git@bitbucket.org:agora-pl/squid-fresh.git
+- name: Clone Git repository
+  git:
+    repo: git@bitbucket.org:agora-pl/{{ project_name }}.git
+    dest: '{{ root }}{{ project_name}}'
+    clone: true
+- name: Clone Git Config repository
+  git:
+    repo: git@bitbucket.org:agora-pl/{{ project_name }}-config.git
+    dest: '{{ root }}{{ project_name}}-config'
+    clone: true
+
+#- name: Add Kubernetes config file
+#   command: git add config.yaml
+#   args:
+#     chdir: '{{ git_repo_path }}'
+#   ignore_errors: true
+# - name: Commit Kubernetes config file
+#   command: git commit -m "Updated Kubernetes config"
+#   args:
+#     chdir: '{{ git_repo_path }}'
+#   ignore_errors: true
+# - name: Push changes to Git repository
+#   command: git push origin master
+#   args:
+#     chdir: '{{ git_repo_path }}'
+#   ignore_errors: true

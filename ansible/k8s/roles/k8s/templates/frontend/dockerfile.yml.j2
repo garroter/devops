@@ -1,0 +1,17 @@
+FROM denoland/deno:1.28.0 as dependencies
+WORKDIR /home/{{ project_name }}
+
+ARG DENO_ENV
+COPY . .
+RUN addgroup --gid 504 deno || true
+RUN adduser --home /home/{{ project_name }} --uid 504 --ingroup deno --disabled-password --gecos "" deno || true
+RUN mkdir -p /home/{{ project_name }}
+RUN mkdir -p /home/deno/.cache
+RUN chown -R deno /home/{{ project_name }} /home/deno/
+
+USER deno
+EXPOSE {{ container_port }}
+# Wyłączenie trybu developerskiego
+ENV DENO_DEPLOYMENT_ID="RANDOM_ID"
+ENV DENO_ENV="$DENO_ENV"
+CMD ["deno", "run", "-A", "main.ts"]

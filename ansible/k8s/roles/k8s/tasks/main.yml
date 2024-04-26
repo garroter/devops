@@ -1,0 +1,61 @@
+- name: Create config root directory
+  ansible.builtin.file:
+    path: '{{ root }}/configuration/'
+    state: directory
+    mode: '0777'
+- name: Create config  directory {{ env }}
+  ansible.builtin.file:
+    path: '{{ root }}/configuration/{{ env }}/'
+    state: directory
+    mode: '0777'
+- name: Create config prod directory
+  ansible.builtin.file:
+    path: '{{ root }}/configuration/{{ env }}/'
+    state: directory
+    mode: '0777'
+- name: Generate Kubernetes Config [deployment]
+  ansible.builtin.template:
+    src: '{{ template }}/deployment.yml.j2'
+    dest: '{{ root }}/configuration/{{ env }}/deployment.yaml'
+    mode: '0777'
+- name: Generate Kubernetes Config [service]
+  ansible.builtin.template:
+    src: '{{ template }}/service.yml.j2'
+    dest: '{{ root }}/configuration/{{ env }}/service.yaml'
+    mode: '0777'
+- name: Generate Kubernetes Config [hpa]
+  ansible.builtin.template:
+    src: '{{ template }}/hpa.yml.j2'
+    dest: '{{ root }}/configuration/{{ env }}/hpa.yaml'
+    mode: '0777'
+- name: Generate Kubernetes Config [ingress]
+  ansible.builtin.template:
+    src: '{{ template }}/ingress.yml.j2'
+    dest: '{{ root }}/configuration/{{ env }}/ingress.yaml'
+    mode: '0777'
+- name: Generate Kubernetes Config [kubernetesNginx]
+  ansible.builtin.template:
+    src: '{{ template }}/kubernetesNginx.yml.j2'
+    dest: '{{ root }}/configuration/KubernetesNginx.yaml'
+    mode: '0777'
+- name: Generate dockerfile
+  ansible.builtin.template:
+    src: '{{ template }}/dockerfile.yml.j2'
+    dest: '{{ root }}/{{ project_name }}/Dockerfile'
+    mode: '0777'
+- name: Generate CI
+  ansible.builtin.template:
+    src: '{{ template }}/jenkinsCI.yml.j2'
+    dest: '{{ root }}/{{ project_name }}/Jenkinsfile-CI.groovy'
+    mode: '0777'
+- name: Generate CD {{ env }}
+  ansible.builtin.template:
+    src: '{{ template }}/jenkinsCD.yml.j2'
+    dest: '{{ root }}/{{ project_name }}/Jenkinsfile-CD-{{ env }}.groovy'
+    mode: '0777'
+- name: Copy k8s to {{ project_name }}
+  ansible.builtin.shell:
+    cmd: cp -r {{ root }}/configuration/ {{ root }}/{{ project_name }}
+- name: Copy k8s to {{ project_name }}-config
+  ansible.builtin.shell:
+    cmd: cp -r {{ root }}/configuration/ {{ root }}/{{ project_name }}-config

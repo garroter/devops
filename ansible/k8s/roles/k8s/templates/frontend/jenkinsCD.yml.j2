@@ -1,0 +1,11 @@
+
+@Library('devops-templates-dev') _
+
+FrontendDenoCD([
+              dockerImageName:'{{ harbor }}',
+              deployEnvironment:'{{ env }}',
+              configRepoName:'{{ project_name }}-config.git',
+              projectName:'{{ project_name }}',
+              healthCheckServiceUrl: '{{ health_check }}',
+              sonar: {{ sonar }},
+])

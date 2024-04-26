@@ -1,0 +1,7 @@
+- name: Git [{{ project_name }}]
+  hosts: localhost
+  vars_files: [vars-dev.yml]
+  tasks:
+    - name: Git clone repos
+      include_role:
+        name: git

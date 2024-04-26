@@ -1,0 +1,23 @@
+#jinja2: trim_blocks: "true", lstrip_blocks: "false"
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  namespace: {{ namespace }}- {{ env }}
+  labels:
+    app: {{ project_name }}
+  name: {{ project_name }}
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ project_name }}
+

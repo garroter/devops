@@ -1,0 +1,7 @@
+- name: Prepare Kubernetes Config [{{ project_name }}]
+  hosts: localhost
+  vars_files: [vars-dev.yml]
+  tasks:
+    - name: K8s config
+      ansible.builtin.include_role:
+        name: k8s

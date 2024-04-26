@@ -1,31 +1,37 @@
 #!/bin/bash
 
 # Check if the number of arguments is correct
-if [ "$#" -ne 2 ]; then
-	echo "Usage: $0 <GitLab_Repo_URL> <Bitbucket_Repo_URL>"
+if [ "$#" -ne 3 ]; then
+	echo "Usage: $0 <Source_Repo_URL> <Target_Repo_URL> <Branch_Name>"
 	exit 1
 fi
 
-# Set GitLab repository URL from first argument
-GITLAB_REPO_URL="$1"
+# Set source repository URL from first argument
+SOURCE_REPO_URL="$1"
 
-# Set Bitbucket repository URL from second argument
-BITBUCKET_REPO_URL="$2"
+# Set target repository URL from second argument
+TARGET_REPO_URL="$2"
 
-# Clone GitLab repository
-git clone --mirror "$GITLAB_REPO_URL" temp_repo
+# Set branch name from third argument
+BRANCH_NAME="$3"
+
+# Clone source repository
+git clone --mirror "$SOURCE_REPO_URL" temp_repo
 
 # Change directory to cloned repository
 cd temp_repo || exit
 
-# Push mirrored repository to Bitbucket
-git push --mirror "$BITBUCKET_REPO_URL"
+# Push mirrored repository to target
+git push --mirror "$TARGET_REPO_URL"
 
-# Push tags to Bitbucket
-git push --tags "$BITBUCKET_REPO_URL"
+# Push specific branch to target
+git push "$TARGET_REPO_URL" "$BRANCH_NAME"
+
+# Push tags to target
+git push --tags "$TARGET_REPO_URL"
 
 # Clean up temporary repository
 cd .. || exit
 rm -rf temp_repo
 
-echo "Repository successfully migrated from GitLab to Bitbucket."
+echo "Repository successfully migrated from Source to Target."

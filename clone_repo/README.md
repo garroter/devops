@@ -1,14 +1,10 @@
+# Git Repository Migration Script
 
-# GitLab to Bitbucket Repository Migration Script
-
-## Description
-This Bash script facilitates the migration of a GitLab repository to Bitbucket. It clones the GitLab repository, then pushes the mirrored repository along with its tags to the specified Bitbucket repository URL.
-
-## Prerequisites
-- Git installed on the system.
-- Access to both GitLab and Bitbucket repositories.
-- Proper authentication configured for both repositories if required.
+This Bash script allows you to migrate a repository from a source platform (e.g., GitLab) to a target platform (e.g., Bitbucket). It clones the source repository as a mirror, pushes it to the target repository, and optionally pushes a specific branch to the target repository.
 
 ## Usage
+
 ```bash
-./clone_repo.sh <GitLab_Repo_URL> <Bitbucket_Repo_URL>
+bash clone_repo.sh <Source_Repo_URL> <Target_Repo_URL> <Branch_Name>
+
+```
