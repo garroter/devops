@@ -2,14 +2,14 @@ namespace: prenumerata
 root: ~/_deploy/
 template: frontend
 project_name: squid-fresh
-env: dev
-docker_image: dev
-harbor: /squid/squid-fresh
+env: prod
+docker_image: prod
+harbor: /wyborcza/squid-fresh
 sonar: false
-health_check: https://squid-fresh.k8s.dev.gazeta.pl/health
+health_check: https://squid-fresh.k8s.prod.gazeta.pl/health
 container_port: 8000
 environment_variables:
   - name: TZ
     value: Europe/Warsaw
   - name: DENO_ENV
-    value: staging
+    value: production

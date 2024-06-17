@@ -4,7 +4,7 @@ template: frontend
 project_name: squid-fresh
 env: dev
 docker_image: dev
-harbor: /squid/squid-fresh
+harbor: /wyborcza/squid-fresh
 sonar: false
 health_check: https://squid-fresh.k8s.dev.gazeta.pl/health
 container_port: 8000
